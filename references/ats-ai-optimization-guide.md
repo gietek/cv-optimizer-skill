@@ -28,8 +28,8 @@ To ensure 100% extraction accuracy across all ATS parsers:
   Always use `MM/YYYY – MM/YYYY` (e.g., `04/2021 – 11/2024`) or `YYYY-MM – YYYY-MM`, with `Present` / `Obecnie` for current roles. Never mix formats (e.g., `"Spring 2021"`, `"2021 - 23"`) as ATS tenure calculators miscalculate total years of experience when months are omitted.
 - **No Visual Skill Bars or Star Ratings**:
   Graphics like `Python ★★★★☆` or `85%` are stripped by text extractors or parsed as gibberish. Instead, group skills by domain or specify years/context of usage.
-- **Contact Information in the Main Body**:
-  Never place contact details inside the Word/Google Docs document `Header` or `Footer` region—several legacy ATS parsers ignore header/footer XML nodes completely. Keep Name, Title, Email, Phone, Location (City, Country), LinkedIn, and Portfolio/GitHub at the very top of the main document body.
+- **Contact Information in the Main Body & Page Number in the Footer**:
+  Never place contact details inside the Word/Google Docs document `Header` or `Footer` region—several legacy ATS parsers ignore header/footer XML nodes completely. Keep Name, Title, Email, Phone, Location (City, Country), LinkedIn, and Portfolio/GitHub at the very top of the main document body. Use the document `Footer` **exclusively for the page number** (paginated layout).
 
 ---
 

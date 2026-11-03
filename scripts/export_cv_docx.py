@@ -19,6 +19,7 @@ from typing import List, Tuple
 from xml.sax.saxutils import escape
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+R_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 
 CONTENT_TYPES_XML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
@@ -27,6 +28,7 @@ CONTENT_TYPES_XML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
   <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
   <Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/>
+  <Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
 </Types>
 """
 
@@ -40,7 +42,59 @@ DOC_RELS_XML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
   <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>
+  <Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/>
 </Relationships>
+"""
+
+FOOTER_XML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:ftr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:p>
+    <w:pPr>
+      <w:jc w:val="right"/>
+      <w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/>
+    </w:pPr>
+    <w:r>
+      <w:rPr>
+        <w:sz w:val="18"/>
+        <w:szCs w:val="18"/>
+        <w:color w:val="64748B"/>
+      </w:rPr>
+      <w:fldChar w:fldCharType="begin"/>
+    </w:r>
+    <w:r>
+      <w:rPr>
+        <w:sz w:val="18"/>
+        <w:szCs w:val="18"/>
+        <w:color w:val="64748B"/>
+      </w:rPr>
+      <w:instrText xml:space="preserve"> PAGE </w:instrText>
+    </w:r>
+    <w:r>
+      <w:rPr>
+        <w:sz w:val="18"/>
+        <w:szCs w:val="18"/>
+        <w:color w:val="64748B"/>
+      </w:rPr>
+      <w:fldChar w:fldCharType="separate"/>
+    </w:r>
+    <w:r>
+      <w:rPr>
+        <w:sz w:val="18"/>
+        <w:szCs w:val="18"/>
+        <w:color w:val="64748B"/>
+      </w:rPr>
+      <w:t>1</w:t>
+    </w:r>
+    <w:r>
+      <w:rPr>
+        <w:sz w:val="18"/>
+        <w:szCs w:val="18"/>
+        <w:color w:val="64748B"/>
+      </w:rPr>
+      <w:fldChar w:fldCharType="end"/>
+    </w:r>
+  </w:p>
+</w:ftr>
 """
 
 NUMBERING_XML = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -336,9 +390,10 @@ def markdown_to_document_xml(md_text: str) -> str:
         # Standard paragraph
         paragraphs.append(build_paragraph_xml(line, style="Normal"))
 
-    # A4 page geometry with 0.65 inch (936 twips) margins for optimal 1-2 page density
+    # A4 page geometry with 0.65 inch (936 twips) margins and default page-number footer
     sect_pr = (
         "<w:sectPr>"
+        '<w:footerReference w:type="default" r:id="rId3"/>'
         '<w:pgSz w:w="11906" w:h="16838"/>'
         '<w:pgMar w:top="936" w:right="936" w:bottom="936" w:left="936" '
         'w:header="450" w:footer="450" w:gutter="0"/>'
@@ -347,7 +402,7 @@ def markdown_to_document_xml(md_text: str) -> str:
 
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
-        f'<w:document xmlns:w="{W_NS}">'
+        f'<w:document xmlns:w="{W_NS}" xmlns:r="{R_NS}">'
         f"<w:body>{''.join(paragraphs)}{sect_pr}</w:body>"
         "</w:document>"
     )
@@ -364,6 +419,7 @@ def export_docx(md_path: Path, docx_path: Path) -> None:
         zf.writestr("word/_rels/document.xml.rels", DOC_RELS_XML.strip())
         zf.writestr("word/styles.xml", STYLES_XML.strip())
         zf.writestr("word/numbering.xml", NUMBERING_XML.strip())
+        zf.writestr("word/footer1.xml", FOOTER_XML.strip())
         zf.writestr("word/document.xml", document_xml)
 
 

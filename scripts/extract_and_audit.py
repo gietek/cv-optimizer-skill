@@ -68,7 +68,12 @@ def extract_docx(path: Path) -> Tuple[str, Dict[str, bool]]:
                 xml_bytes = zf.read(name)
                 root = ET.fromstring(xml_bytes)
                 header_text = "".join(root.itertext()).strip()
-                if header_text:
+                # Ignore simple page number fields in footers (e.g. "PAGE 1")
+                if header_text and not re.fullmatch(
+                    r"(?:PAGE|NUMPAGES|Strona|Page|\d+|\s|/|-|z|of)+",
+                    header_text,
+                    flags=re.IGNORECASE,
+                ):
                     diagnostics["has_header_footer_text"] = True
                     paragraphs.append(f"[HEADER/FOOTER]: {header_text}")
 

@@ -127,23 +127,26 @@ Once the user answers the follow-up questions:
 
 ## Phase 5: Creating the Google Docs CV
 
-Create the final Google Docs version using the following hybrid procedure:
+Create the final Google Docs version using the following hybrid procedure.
+
+> **Mandatory Footer Requirement**: Every generated Google Docs / `.docx` CV **must be paginated (not pageless) and include a page number in the document footer**.
 
 ### Path A: Native Google Docs Plugin (`gdocs`) — Primary Method
 1. Check whether the **Google Docs** plugin (`antigravity-plugins-official/plugin/gdocs`) tools/CLI are available in your environment:
    - Check connected accounts via `list_plugin_accounts` if available.
-   - If the Google Docs plugin is installed and authenticated, create a new Google Doc titled `CV - <Full Name> - <Target Role> (<LANG>)` and populate it with the full optimized CV using clean semantic styles (`Title`, `Heading 1`, `Heading 2`, bullet lists, and bold emphasis).
+   - If the Google Docs plugin is installed and authenticated, create a new **paginated** Google Doc (`--pageless=false`) titled `CV - <Full Name> - <Target Role> (<LANG>)` and populate it with the full optimized CV using clean semantic styles (`Title`, `Heading 1`, `Heading 2`, bullet lists, and bold emphasis).
+   - Ensure the document has a **footer with a page number** (using `createFooter` via `gdocs mutate batch` raw request or by importing/syncing with page numbering enabled).
    - Return the direct clickable Google Docs link to the user.
 
 ### Path B: Google-Docs-Ready `.docx` Generation — Always Run (Local File & Fallback)
-1. Regardless of whether Path A is available, **always** generate a cleanly formatted, ATS-compliant `.docx` document using the bundled converter script:
+1. Regardless of whether Path A is available, **always** generate a cleanly formatted, ATS-compliant `.docx` document (which automatically embeds a dynamic `PAGE` number in the footer) using the bundled converter script:
    ```bash
    python3 ./scripts/export_cv_docx.py "<path-to-markdown-cv.md>" "<output-cv.docx>"
    ```
    *(Resolve `./scripts/export_cv_docx.py` relative to this `SKILL.md` directory.)*
 2. **Validation Step**:
    - Verify that the script exits with code `0` and the `.docx` file is non-empty.
-   - If the workspace directory is inside Google Drive (e.g., `GoogleDrive-...` / `Mój dysk`), inform the user that the `.docx` file is automatically synced to their Google Drive and can be opened directly as a native **Google Docs** document in one click with 100% preserved ATS-safe styling.
+   - If the workspace directory is inside Google Drive (e.g., `GoogleDrive-...` / `Mój dysk`), inform the user that the `.docx` file is automatically synced to their Google Drive and can be opened directly as a native **Google Docs** document in one click with 100% preserved ATS-safe styling and footer page numbering.
 3. **Suggesting the Google Docs Plugin (if not installed)**:
    - If the `gdocs` plugin (`antigravity-plugins-official/plugin/gdocs`) is not installed in the current environment, include its plugin card at the end of your response so the user can optionally install it for direct cloud Google Docs creation:
      `<plugin-card catalog-id="antigravity-plugins-official/plugin/gdocs"></plugin-card>`

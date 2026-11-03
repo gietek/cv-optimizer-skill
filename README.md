@@ -14,9 +14,9 @@ A reusable Agent Skill (compatible with **Google Antigravity**, **Claude Code**,
    - Checks contextual skill validation (*Two-Touch Rule*), date standardization (`MM/YYYY`), and single-column parsing safety.
 3. **Structured Gap-Filling Interview**: Asks focused follow-up questions in digestible rounds to fill missing employment periods, extract measurable metrics (`%`, `$`, scale, time saved), complete education/certification details, and resolve conflicts between older CV versions.
 4. **Target Language Selection**: Explicitly asks in which language (e.g., English, Polish, German, or multiple versions) the final CV should be written, while conversing naturally in your preferred language.
-5. **Hybrid Google Docs Output**:
-   - **Primary**: Creates a native Google Docs document via the official Antigravity **Google Docs (`gdocs`)** plugin when connected.
-   - **Universal Fallback**: Includes a zero-dependency Python exporter ([`scripts/export_cv_docx.py`](./scripts/export_cv_docx.py)) that generates a clean, single-column `.docx` with semantic `Heading 1/2` styles, bullet lists, and section borders—opening natively in **Google Docs** with 100% preserved layout.
+5. **Hybrid Google Docs Output (with Footer Page Numbering)**:
+   - **Primary**: Creates a paginated native Google Docs document (`--pageless=false`) with a page number in the footer via the official Antigravity **Google Docs (`gdocs`)** plugin when connected.
+   - **Universal Fallback**: Includes a zero-dependency Python exporter ([`scripts/export_cv_docx.py`](./scripts/export_cv_docx.py)) that generates a clean, single-column `.docx` with semantic `Heading 1/2` styles, bullet lists, section borders, and a dynamic page number in the footer—opening natively in **Google Docs** with 100% preserved layout.
 
 ---
 
@@ -93,9 +93,9 @@ Reużywalny skill dla agentów AI (zgodny z **Google Antigravity**, **Claude Cod
    - Konkretne metryki i skalę projektów (procenty, budżety, zaoszczędzony czas, wielkość zespołów, użyte technologie),
    - Braki w wykształceniu, certyfikatach, językach obcych (skala CEFR B1–C2) oraz klauzuli RODO/GDPR.
 4. **Wybór języka docelowego CV**: Zawsze pyta, w jakim języku (np. polskim, angielskim, niemieckim lub w kilku wersjach językowych) ma zostać wygenerowane docelowe CV.
-5. **Tworzenie dokumentu Google Docs (tryb hybrydowy)**:
-   - **Metoda natywna**: Tworzy dokument bezpośrednio w chmurze Google Docs przez oficjalny plugin **Google Docs (`gdocs`)** w Antigravity.
-   - **Metoda uniwersalna (Fallback / Google Drive)**: Zawiera bezinwazyjny skrypt w czystym Pythonie ([`scripts/export_cv_docx.py`](./scripts/export_cv_docx.py)) niewymagający żadnych zewnętrznych bibliotek (`pip`), który generuje czysty, jednoszpaltowy plik `.docx` ze stylami nagłówków `Heading 1/2` i wypunktowaniami, gotowy do otwarcia bezpośrednio jako **Google Docs**.
+5. **Tworzenie dokumentu Google Docs (tryb hybrydowy z numeracją stron w stopce)**:
+   - **Metoda natywna**: Tworzy stronicowany dokument bezpośrednio w chmurze Google Docs (`--pageless=false`) wraz z numerem strony w stopce przez oficjalny plugin **Google Docs (`gdocs`)** w Antigravity.
+   - **Metoda uniwersalna (Fallback / Google Drive)**: Zawiera bezinwazyjny skrypt w czystym Pythonie ([`scripts/export_cv_docx.py`](./scripts/export_cv_docx.py)) niewymagający żadnych zewnętrznych bibliotek (`pip`), który generuje czysty, jednoszpaltowy plik `.docx` ze stylami nagłówków `Heading 1/2`, wypunktowaniami oraz dynamicznym numerem strony w stopce, gotowy do otwarcia bezpośrednio jako **Google Docs**.
 
 ---
 
