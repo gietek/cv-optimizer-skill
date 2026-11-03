@@ -1,0 +1,11 @@
+{
+  "name": "cv-optimizer",
+  "displayName": "CV Optimizer (AI & ATS Ready)",
+  "version": "1.0.0",
+  "description": "Analyze one or more old CVs, optimize for AI & ATS screening, interview the user to fill career/education gaps, and generate a Google Docs CV in the chosen language.",
+  "suggestedPrompts": [
+    "Przeanalizuj moje stare CV, dopytaj o braki i stwórz nowe CV w Google Docs",
+    "Audit my old resumes for ATS/AI screening and help me build an updated 2026 CV",
+    "Połącz moje poprzednie wersje CV i przygotuj zoptymalizowaną wersję po angielsku"
+  ]
+}

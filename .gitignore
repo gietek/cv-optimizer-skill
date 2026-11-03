@@ -1,0 +1,19 @@
+# macOS / OS metadata
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Personal / generated user CVs (keep examples/ tracked)
+*.pdf
+*.docx
+CV_*.md
+cv_*.md
+!examples/*.md
+scratch/
+tmp/
