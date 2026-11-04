@@ -1,6 +1,6 @@
 # JAN KOWALSKI
 **Senior Software Engineer | Cloud & Distributed Systems**
-Warsaw, Poland (Hybrid/Remote) | +48 600 000 000 | jan.kowalski@example.com | linkedin.com/in/jankowalski | github.com/jankowalski
+Warsaw, Poland (Hybrid/Remote) | +48 600 000 000 | jan.kowalski@example.com | https://linkedin.com/in/jankowalski | https://github.com/jankowalski
 
 ## Professional Summary
 Senior Software Engineer with **8+ years of experience** designing high-throughput backend systems and cloud-native architectures in **Python, Go, and AWS**. Proven track record of **reducing cloud infrastructure spend by 32% ($140k/year)** and scaling real-time payment pipelines to **25,000+ requests per second (99.99% SLA)**. Adept at leading cross-functional engineering teams, modernizing legacy monoliths, and embedding automated CI/CD and observability practices.

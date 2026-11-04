@@ -5,15 +5,17 @@ Zero-dependency CV Text Extractor & ATS/AI Heuristic Pre-Auditor.
 Usage:
     python3 scripts/extract_and_audit.py <cv_file_1> [<cv_file_2> ...]
 
-Supports:
-- .docx (native OpenXML parsing via standard library zipfile + xml.etree)
-- .md, .txt, .html (standard library)
-- .pdf (via pypdf/pdfplumber/pdftotext if available; advises agent to also use read_file)
+Checks:
+- Measurable results / metric density in experience bullets
+- Weak passive phrasing & slang/colloquialisms warning
+- Ecosystem / adjacent technology suggestions (e.g., React -> React Router; React+Redux -> RTK Toolkit & RTK Query)
+- Presence of GitHub / GitLab profile links
+- Verification that all URLs include `https://`
+- Timeline years & structural risks
 """
 
 import html
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -43,6 +45,27 @@ WEAK_PATTERNS_PL = [
     r"\bpomoc w\b",
 ]
 
+SLANG_PATTERNS = [
+    r"\bogarniani[ea]\b",
+    r"\bogarnął[ea]?m\b",
+    r"\bdowożeni[ea]\b",
+    r"\bdowiezieni[ea]\b",
+    r"\bficzer\w*\b",
+    r"\bklepani[ea] kodu\b",
+    r"\bgaszeni[ea] pożarów\b",
+    r"\brobieni[ea] calli\b",
+    r"\bcallach\b",
+    r"\bgrzebani[ea] w\b",
+    r"\bstawiani[ea] serwer\w*\b",
+    r"\bodpalani[ea]\b",
+    r"\bninja\b",
+    r"\brockstar\b",
+    r"\bguru\b",
+    r"\basap\b",
+    r"\bfuckup\w*\b",
+    r"\bfakapa?\b",
+]
+
 METRIC_REGEX = re.compile(
     r"(\b\d+(?:[.,]\d+)?\+?\s*(?:%|percent\b|proc\.|x\b|k\b|m\b|mln\b|tys\.|usd\b|eur\b|pln\b|gbp\b|\$|€|zł|hrs?\b|hours?\b|godz\.|days?\b|dni\b|wks?\b|weeks?\b|months?\b|mies\.|users?\b|klientów\b|osób\b|projects?\b|projektów\b|ms\b|s\b|min\b|rps\b|sla\b|stores?\b|apis?\b|services?\b|engineers?\b|markets?\b)|"
     r"(?:\$|€|PLN|USD|EUR|GBP)\s*\d+(?:[.,]\d+)?)",
@@ -52,8 +75,41 @@ METRIC_REGEX = re.compile(
 YEAR_REGEX = re.compile(r"\b(19[89]\d|20[0-3]\d)\b")
 EMAIL_REGEX = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
 PHONE_REGEX = re.compile(r"(?:\+?\d{1,3}[\s-]?)?(?:\(?\d{2,3}\)?[\s-]?)?\d{3}[\s-]?\d{2,3}[\s-]?\d{2,4}")
-LINKEDIN_REGEX = re.compile(r"linkedin\.com/in/[a-zA-Z0-9_-]+", re.IGNORECASE)
-GITHUB_REGEX = re.compile(r"github\.com/[a-zA-Z0-9_-]+", re.IGNORECASE)
+LINKEDIN_REGEX = re.compile(r"(?:https?://)?(?:www\.)?linkedin\.com/in/[a-zA-Z0-9_-]+/?", re.IGNORECASE)
+GITHUB_REGEX = re.compile(r"(?:https?://)?(?:www\.)?github\.com/[a-zA-Z0-9_.-]+/?", re.IGNORECASE)
+GITLAB_REGEX = re.compile(r"(?:https?://)?(?:www\.)?gitlab\.com/[a-zA-Z0-9_.-]+/?", re.IGNORECASE)
+
+# Detect candidate URLs to verify `https://` prefix
+URL_TOKEN_REGEX = re.compile(
+    r"(?<!@)\b((?:https?://)?(?:www\.)?(?:linkedin\.com|github\.com|gitlab\.com|bitbucket\.org|[a-zA-Z0-9-]+\.(?:dev|io|me|pl|com|org|net|ai))(?:/[^\s|,;)\]]*)?)",
+    re.IGNORECASE,
+)
+
+
+def detect_adjacent_tech_suggestions(text: str) -> List[str]:
+    """Suggest companion technologies based on detected keywords."""
+    suggestions: List[str] = []
+    lower = text.lower()
+
+    has_react = bool(re.search(r"\breact(?:\.js|js)?\b", lower))
+    has_redux = bool(re.search(r"\bredux\b", lower))
+
+    if has_react and not re.search(r"\breact\s+router\b", lower):
+        suggestions.append("Detected React -> Ask if the candidate used React Router (or Next.js / TanStack Query)")
+    if has_react and has_redux and not re.search(r"\b(?:rtk|redux\s+toolkit|rtk\s+query)\b", lower):
+        suggestions.append("Detected React + Redux -> Ask if the candidate used Redux Toolkit (RTK) and RTK Query")
+    if re.search(r"\bvue(?:\.js|js)?\b", lower) and not re.search(r"\b(?:pinia|vuex|vue\s+router|nuxt)\b", lower):
+        suggestions.append("Detected Vue -> Ask if the candidate used Vue Router, Pinia/Vuex, or Nuxt.js")
+    if re.search(r"\bangular\b", lower) and not re.search(r"\b(?:rxjs|ngrx)\b", lower):
+        suggestions.append("Detected Angular -> Ask if the candidate used RxJS or NgRx")
+    if re.search(r"\bpython\b", lower) and not re.search(r"\b(?:fastapi|django|flask|pytest|sqlalchemy|pydantic|pandas)\b", lower):
+        suggestions.append("Detected Python -> Ask about frameworks/libraries used (e.g. FastAPI, Django, Flask, pytest, SQLAlchemy, Pandas)")
+    if re.search(r"\bjava\b", lower) and not re.search(r"\bspring\s+boot\b", lower):
+        suggestions.append("Detected Java -> Ask if the candidate used Spring Boot, Hibernate/JPA, Maven/Gradle, or JUnit")
+    if re.search(r"\bdocker\b", lower) and not re.search(r"\b(?:kubernetes|k8s|docker\s+compose)\b", lower):
+        suggestions.append("Detected Docker -> Ask if the candidate used Docker Compose, Kubernetes (K8s), or CI/CD pipelines")
+
+    return suggestions
 
 
 def extract_docx(path: Path) -> Tuple[str, Dict[str, bool]]:
@@ -68,7 +124,6 @@ def extract_docx(path: Path) -> Tuple[str, Dict[str, bool]]:
                 xml_bytes = zf.read(name)
                 root = ET.fromstring(xml_bytes)
                 header_text = "".join(root.itertext()).strip()
-                # Ignore simple page number fields in footers (e.g. "PAGE 1")
                 if header_text and not re.fullmatch(
                     r"(?:PAGE|NUMPAGES|Strona|Page|\d+|\s|/|-|z|of)+",
                     header_text,
@@ -143,7 +198,6 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     words = re.findall(r"\S+", text)
 
-    # Identify experience bullet-like lines (excluding short Skill/Language key:value lines)
     explicit_bullets = [
         line
         for line in lines
@@ -164,10 +218,22 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
         if matches:
             weak_hits.extend(m.lower() for m in matches)
 
+    slang_hits: List[str] = []
+    for pat in SLANG_PATTERNS:
+        matches = re.findall(pat, text, flags=re.IGNORECASE)
+        if matches:
+            slang_hits.extend(m.lower() for m in matches)
+
     years = sorted({int(y) for y in YEAR_REGEX.findall(text)})
     emails = sorted(set(EMAIL_REGEX.findall(text)))
     linkedin = sorted(set(LINKEDIN_REGEX.findall(text)))
     github = sorted(set(GITHUB_REGEX.findall(text)))
+    gitlab = sorted(set(GITLAB_REGEX.findall(text)))
+
+    all_urls = sorted(set(URL_TOKEN_REGEX.findall(text)))
+    links_missing_https = [
+        u for u in all_urls if not u.lower().startswith("https://")
+    ]
 
     quant_ratio = (
         round((len(quantified_lines) / len(bullet_lines)) * 100, 1)
@@ -183,6 +249,8 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
         "quantification_rate_pct": quant_ratio,
         "weak_passive_phrases_found": sorted(set(weak_hits)),
         "weak_phrase_occurrences": len(weak_hits),
+        "slang_warnings_found": sorted(set(slang_hits)),
+        "suggested_adjacent_technologies": detect_adjacent_tech_suggestions(text),
         "years_detected": years,
         "earliest_year": min(years) if years else None,
         "latest_year": max(years) if years else None,
@@ -191,6 +259,9 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
             "has_phone": bool(PHONE_REGEX.search(text)),
             "linkedin": linkedin,
             "github": github,
+            "gitlab": gitlab,
+            "missing_github_or_gitlab": not bool(github or gitlab),
+            "links_missing_https": links_missing_https,
         },
         "structural_risks": diagnostics,
     }

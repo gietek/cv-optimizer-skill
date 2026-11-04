@@ -1,6 +1,6 @@
 # CV Structure Templates, Section Headers & GDPR/RODO Clauses
 
-Use this reference in **Phase 4 (Drafting & Optimization)** to ensure the generated Markdown and Google Docs CV uses standard, ATS-recognized section headings and clean hierarchy.
+Use this reference in **Phase 4 (Drafting & Optimization)** to ensure the generated Markdown and Google Docs CV uses standard, ATS-recognized section headings, `https://` links, and clean hierarchy.
 
 ---
 
@@ -21,30 +21,32 @@ Always use these canonical section titles so ATS parsers classify every section 
 
 ---
 
-## 2. Canonical Markdown Template (Input for `export_cv_docx.py` & Google Docs)
+## 2. Canonical Markdown Template (Input for Google Docs)
 
-When saving the optimized CV in Markdown (`CV_<Name>_<LANG>.md`), follow this exact heading hierarchy so both the Google Docs plugin (`gdocs`) and `scripts/export_cv_docx.py` render it into a crisp, executive document:
+When saving the optimized CV in Markdown (`CV_<FirstName>_<LastName>_<LANG>.md`), ensure:
+- The **filename** contains **only basic English ASCII characters** (`A-Z`, `a-z`, `0-9`, `_`, `-`, `.`), with all diacritics transliterated (`ą→a`, `ł→l`, `ó→o`, `ż→z`, etc.).
+- Every link in the document includes **`https://`**.
 
 ```markdown
 # FULL NAME
 **Target Role Title / Headline**
-City, Country | Phone | email@example.com | linkedin.com/in/username | github.com/username
+City, Country | Phone | email@example.com | https://linkedin.com/in/username | https://github.com/username
 
 ## Professional Summary
-Results-driven [Target Role] with [X]+ years of experience in [Core Domains]. Proven track record of [Top Achievement 1 with metric] and [Top Achievement 2 with metric]. Expert in [Key Skill 1], [Key Skill 2], and [Key Skill 3].
+Results-driven [Target Role] with [X]+ years of experience in [Core Domains]. Proven track record of [Top Measurable Achievement 1 with metric] and [Top Measurable Achievement 2 with metric]. Expert in [Key Skill 1], [Key Skill 2], and [Key Skill 3].
 
 ## Work Experience
 
 ### Job Title | Company Name
 *Location (Remote / Hybrid / On-site) | MM/YYYY – Present*
-- **[Action Verb] [Outcome + Metric]** by implementing [Method/Technology] across [Scope].
-- **[Action Verb] [Outcome + Metric]**, reducing [Problem] from [X] to [Y] through [Action].
+- **[Action Verb] [Measurable Outcome + Metric]** by implementing [Method/Technology] across [Scope].
+- **[Action Verb] [Measurable Outcome + Metric]**, reducing [Problem] from [X] to [Y] through [Action].
 - **[Action Verb] [Scope/Team]** to deliver [Project/Product] on schedule and within [Budget/SLA].
 
 ### Previous Job Title | Previous Company Name
 *Location | MM/YYYY – MM/YYYY*
-- **[Action Verb] [Outcome + Metric]** using [Tools/Skills] for [Client/System scale].
-- **[Action Verb] [Outcome + Metric]** by redesigning [Process/Architecture].
+- **[Action Verb] [Measurable Outcome + Metric]** using [Tools/Skills] for [Client/System scale].
+- **[Action Verb] [Measurable Outcome + Metric]** by redesigning [Process/Architecture].
 
 ## Skills & Competencies
 - **Core Technical Skills:** Skill A, Skill B, Skill C, Skill D
