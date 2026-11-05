@@ -21,12 +21,15 @@ A reusable Agent Skill (compatible with **Google Antigravity**, **Claude Code**,
    - Checks if a **GitHub** or **GitLab** profile is present; if missing, asks the user whether to add it and requests the link.
    - Ensures every link in the CV (LinkedIn, GitHub, GitLab, portfolio) starts with **`https://`**.
    - Ensures generated filenames contain **only basic English ASCII characters** (no Polish diacritics or special characters in filenames).
-6. **Conciseness & Length Control (Max 3 Pages)**:
+6. **Conciseness, Anti-Ageism & Length Control (Max 3 Pages)**:
    - Keeps the final Google Docs CV within **at most 3 pages**.
-   - Limits the **Professional Summary to 3–4 sentences** and omits specific technologies from the summary if they are already used later in the document.
+   - Limits the **Professional Summary to 3–4 sentences**, omitting specific technologies and avoiding repeating concrete achievements/items that are already listed under individual job roles.
+   - **Anti-Ageism Cap (`20+` max)**: Caps total years of experience stated in the summary at `20+` (e.g., 10 years → `10`; 25 years → `20+` / `ponad 20`).
    - Eliminates redundant repetitions such as *"2-krotnie (2x)"*.
    - Keeps full detail for recent roles while **condensing roles from 12+ years ago** to 1–2 brief bullets.
-7. **Target Language Selection & Google Docs Output**: Explicitly asks in which language the final CV should be written and creates the document in **Google Docs** via the `gdocs` plugin (alongside an ASCII-named Markdown source file).
+7. **Target Language Selection & Google Docs Page Layout**:
+   - Explicitly asks in which language the final CV should be written and creates a paginated **Google Docs** document (`--pageless=false`) via the `gdocs` plugin.
+   - Configures **A4 page format (`595.28 × 841.89 PT`)**, **1.25 cm (`35.43 PT`) margins**, and paragraph pagination controls (`keepWithNext: true`, `keepLinesTogether: true`, `avoidWidowAndOrphan: true`).
 
 ---
 
@@ -106,13 +109,15 @@ Reużywalny skill dla agentów AI (zgodny z **Google Antigravity**, **Claude Cod
    - Jeśli w CV brakuje linku do **GitHuba** lub **GitLaba**, pyta czy go dodać i prosi o link.
    - Pilnuje, aby wszystkie linki (np. do LinkedIna, GitHuba, portfolio) zawierały pełny prefiks **`https://`**.
    - Generując nazwy plików używa wyłącznie podstawowych znaków alfabetu angielskiego ASCII (bez polskich znaków diakrytycznych, np. `CV_Artur_Wrobel_PL.md`).
-6. **Kontrola długości i zwięzłości (maksymalnie 3 strony)**:
+6. **Kontrola długości, zwięzłości i ochrona przed ageizmem (maksymalnie 3 strony)**:
    - Dba o to, aby wygenerowany dokument nie przekraczał **3 stron**.
-   - Skraca **podsumowanie zawodowe do 3–4 zdań** i nie wymienia w nim technologii, które pojawiają się w dalszej części dokumentu.
+   - Skraca **podsumowanie zawodowe do 3–4 zdań** i nie powtarza w nim ani technologii użytych dalej w dokumencie, ani konkretnych osiągnięć wypisanych przy poszczególnych stanowiskach (np. *„wzrost pokrycia testami"*).
+   - **Ochrona przed ageizmem (limit `20+`)**: Podając liczbę lat doświadczenia w podsumowaniu stosuje maksymalną wartość **`20+`** (lub **`ponad 20`** w wersji polskiej) — np. dla 10 lat podaje `10`, a dla 25 lat podaje `20+` / `ponad 20`.
    - Unika powtórzeń i pleonazmów typu *„2-krotnie (2x)"*.
    - Zmniejsza szczegółowość opisów **stanowisk sprzed 12 lat i więcej** (skracając je do 1–2 zwięzłych punktów przy zachowaniu pełnej szczegółowości dla najnowszych ról).
-7. **Wybór języka docelowego i zapis do Google Docs**:
-   - Zawsze pyta, w jakim języku ma powstać CV, a następnie tworzy sformatowany dokument w **Google Docs** za pomocą pluginu `gdocs`.
+7. **Wybór języka docelowego i układ strony w Google Docs (A4, marginesy 1,25 cm)**:
+   - Zawsze pyta, w jakim języku ma powstać CV, a następnie tworzy stronicowany dokument w **Google Docs** (`--pageless=false`) za pomocą pluginu `gdocs`.
+   - Ustawia format strony **A4**, **marginesy 1,25 cm (`35,43 PT`)** oraz opcje kontroli łamania akapitów (`keepWithNext`, `keepLinesTogether` i `avoidWidowAndOrphan` na `true`).
 
 ---
 

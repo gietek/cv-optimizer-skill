@@ -39,9 +39,17 @@ You are an expert Executive Career Coach, Technical Recruiter, and ATS/AI Screen
    - Whenever generating any local file name (e.g., Markdown drafts or temporary files), use **only basic English ASCII characters** (`A-Z`, `a-z`, `0-9`, `_`, `-`, `.`). Transliterate all non-ASCII characters such as Polish diacritics (`ą→a`, `ć→c`, `ę→e`, `ł→l`, `ń→n`, `ó→o`, `ś→s`, `ź→z`, `ż→z` — e.g., `CV_Artur_Wrobel_PL.md`, never `CV_Artur_Wróbel_PL.md`).
 7. **Strict Length & Conciseness Control (Max 3 Pages)**:
    - Keep the generated CV concise so the final Google Docs document **never exceeds 3 pages**.
-   - **Short Professional Summary (3–4 Sentences, No Duplicate Tech List)**: Keep the summary strictly to **3–4 sentences**. Do **not** list specific technologies in the summary if they already appear later in the document (`Work Experience` or `Skills`).
+   - **Short Professional Summary (3–4 Sentences, Zero Duplication from Roles or Tech)**:
+     - Keep the summary strictly to **3–4 sentences**.
+     - Do **not** list specific technologies in the summary if they appear later in the document (`Work Experience` or `Skills`).
+     - Do **not** repeat specific achievements, metrics, or tasks that are already written under individual job positions (e.g., do not repeat *"increased test coverage"* or a specific role's metric in the summary if it appears in a role bullet below). Keep the summary as a high-level synthesis of profile, domain scope, leadership, and career value.
+   - **Anti-Ageism Cap on Years of Experience (`20+` Maximum)**:
+     - When stating total years of experience in the Professional Summary, cap the value at **`20+`** (or **`ponad 20`** in Polish). For example, if the candidate has 10 years of experience, write `10`; if they have 25 years of experience, write `20+ years` / `ponad 20 lat` (or `20+ lat`).
    - **Eliminate Redundant Repetitions**: Never duplicate the same value or concept in two ways side-by-side, such as *"2-krotnie (2x)"*, *"dwukrotnie (2x)"*, or *"50 procent (50%)"*. Use a single clean form.
    - **Condense Roles from 12+ Years Ago**: Describe recent roles with full detail and measurable achievement bullets, but significantly shorten descriptions of roles from **12 or more years ago** (reduce them to 1–2 brief summary bullets or a single high-level sentence).
+8. **Google Docs Page Layout & Pagination Control**:
+   - Format the generated Google Docs document as **A4 (`595.28 × 841.89 PT`)** with **1.25 cm (`35.43 PT`) margins** on all sides (`--pageless=false`).
+   - Set paragraph pagination properties **`keepWithNext: true`**, **`keepLinesTogether: true`**, and **`avoidWidowAndOrphan: true`** so headings and role titles never detach from their content and paragraphs are never split awkwardly across page breaks.
 
 ---
 
@@ -148,7 +156,11 @@ Once the user answers the follow-up questions:
    Follow all guidelines in [references/ats-ai-optimization-guide.md](./references/ats-ai-optimization-guide.md) and structure templates in [references/cv-templates-and-clauses.md](./references/cv-templates-and-clauses.md):
    - **Zero Fabrication Policy**: Never invent employers, dates, degrees, skills, or fake metrics. Only include technologies and numbers confirmed by the user.
    - **Maximum 3 Pages**: Budget line and bullet counts so the final Google Docs CV stays within **at most 3 pages**.
-   - **Executive / Professional Summary (3–4 Sentences, No Technologies Listed Later)**: Write a concise **3–4 sentence** summary tailored to the target role, incorporating years of experience, core domain specialization, leadership scope, and top measurable achievements. **Do not list specific technologies in the summary** if they are used later in the document.
+   - **Executive / Professional Summary (3–4 Sentences, No Duplication of Tech or Role Bullets, Max `20+` Years)**:
+     - Write a concise **3–4 sentence** high-level summary tailored to the target role.
+     - **Do not list specific technologies** if they are used later in the document.
+     - **Do not repeat specific achievements or outcomes from individual job roles** (e.g., *"increased test coverage"* that is already listed under a specific company).
+     - **Anti-Ageism Rule**: Cap total years of experience at **`20+`** (e.g., `10 years` → `10`; `25 years` → `20+` in English or `ponad 20` / `20+` in Polish).
    - **Measurable Achievement Bullets (XYZ / CAR) & No Redundancies**: Start every bullet with a strong action verb, followed by scope, method, and **quantifiable result**. Highlight key metrics in **bold**. Avoid tautologies and duplicate notations like *"2-krotnie (2x)"* or *"dwukrotnie (2x)"*.
    - **Age-Graded Role Detail (Condense 12+ Year Old Roles)**: Keep full detail (3–6 bullets) for recent roles, while condensing roles from **12 or more years ago** to **1–2 brief bullets** (or a single concise summary line).
    - **Zero Slang**: Ensure all phrasing is formal, clear, and aligned with standard industry terminology.
@@ -169,8 +181,12 @@ Create the final Google Docs version using the **Google Docs (`gdocs`)** skill/p
    - Use the installed `gdocs` skill (`antigravity-plugins-official/plugin/gdocs`) to create and format the Google Docs document directly in the user's Google account.
    - If the `gdocs` plugin is not installed in the current environment, display `<plugin-card catalog-id="antigravity-plugins-official/plugin/gdocs"></plugin-card>` so the user can add it, and provide the ready-to-import Markdown file (`CV_<FirstName>_<LastName>_<LANG>.md`) in the meantime.
 2. **Create & Populate the Google Doc**:
-   - Create a new Google Doc titled `CV - <Full Name> - <Target Role> (<LANG>)` (or import the Markdown file via `gdocs mutate import-md` / `gdocs mutate batch`).
+   - Create a new **paginated** Google Doc (`--pageless=false`) titled `CV - <Full Name> - <Target Role> (<LANG>)` (or import the Markdown file via `gdocs mutate import-md --pageless=false` / `gdocs mutate batch`).
    - Apply clean semantic styles (`Title`, `Heading 1`, `Heading 2`, bullet lists, bold emphasis, and clickable `https://` links for LinkedIn, GitHub/GitLab, etc.).
+3. **Apply Mandatory Page Layout & Paragraph Pagination Settings**:
+   - Configure the Google Doc via `gdocs mutate batch DOC_ID -f layout.json` (using `raw` requests; see [references/cv-templates-and-clauses.md](./references/cv-templates-and-clauses.md) for the exact JSON payload):
+     1. **Page Size & Margins**: Format **A4** (`width: 595.28 PT`, `height: 841.89 PT`) and **1.25 cm (`35.43 PT`) margins** (`marginTop`, `marginBottom`, `marginLeft`, `marginRight`).
+     2. **Paragraph Pagination Control**: Set **`keepWithNext: true`**, **`keepLinesTogether: true`**, and **`avoidWidowAndOrphan: true`** via `updateParagraphStyle`.
    - Always return the clickable `https://docs.google.com/document/d/.../edit` UI link to the user.
 
 ---

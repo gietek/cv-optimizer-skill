@@ -102,22 +102,31 @@ Candidates frequently use workplace slang, developer jargon, or casual shorthand
 
 ---
 
-## 5. Length Control, Summary Rules, Anti-Redundancy & 12+ Year Role Condensing
+## 5. Length Control, Summary Rules, Anti-Ageism, Anti-Redundancy & Page Layout
 
 1. **Maximum Document Length (Up to 3 Pages)**:
    - Keep the complete CV concise so that the generated Google Docs document **does not exceed 3 pages** (typically 600–1,200 words depending on career length).
    - Trim low-value fluff, generic filler phrases, and overly verbose project descriptions.
-2. **Concise Professional Summary (3–4 Sentences, No Redundant Tech Lists)**:
+2. **Concise Professional Summary (3–4 Sentences, Zero Duplication of Tech or Role Achievements)**:
    - Limit the `Professional Summary` / `Podsumowanie zawodowe` strictly to **3–4 sentences**.
-   - **Do NOT list specific technologies, frameworks, or tools in the summary** if they are already included later in the document (`Work Experience` or `Skills`). Instead, use the summary to highlight total years of experience, domain profile, leadership/architectural scope, and 1–2 headline measurable business outcomes.
-3. **Avoid Redundant Repetitions & Pleonasms**:
+   - **Do NOT list specific technologies, frameworks, or tools in the summary** if they are already included later in the document (`Work Experience` or `Skills`).
+   - **Do NOT repeat specific items, metrics, or achievements from individual job positions** (for example, do not write *"increased automated test coverage"* or repeat a single role's specific percentage metric in the summary if it already appears in a role bullet below).
+   - Instead, write the summary as a **high-level executive synthesis** covering: total years of experience (subject to the `20+` cap below), core domain specialization, leadership/architectural scope, and overarching business value delivered across the career.
+3. **Anti-Ageism Cap on Years of Experience (`20+` Maximum)**:
+   - To prevent automated or human ageism filters from flagging senior candidates, **cap the stated number of years of experience in the Professional Summary at `20+`**:
+     - If the candidate has `<= 20` years of experience (e.g., `10` years), state the exact number (`10 years of experience` / `10 lat doświadczenia`).
+     - If the candidate has `> 20` years of experience (e.g., `25` years), always write **`20+`** (`20+ years of experience` in English, or `ponad 20 lat doświadczenia` / `20+ lat doświadczenia` in Polish).
+4. **Avoid Redundant Repetitions & Pleonasms**:
    - Never repeat the same number, multiplier, or concept in two notations side-by-side:
      - *Bad*: `"zwiększyłem przepustowość 2-krotnie (2x)"`, `"dwukrotnie (2x)"`, `"o 50 procent (50%)"`, `"zespół pięcioosobowy (5 osób)"`.
      - *Good*: `"zwiększyłem przepustowość 2-krotnie"` lub `"zwiększyłem przepustowość o 100%"` (pick one clean form, never both).
-4. **Condense Roles from 12+ Years Ago**:
+5. **Condense Roles from 12+ Years Ago**:
    - Recruiters and AI screeners weight recent experience heavily while treating roles from **12 or more years ago** primarily as career foundation context.
    - **Recent roles (< 12 years ago)**: Describe with full detail (3–6 measurable XYZ bullets per role).
    - **Older roles (12+ years ago)**: Significantly reduce detail—limit each old role to **1–2 short summary bullets** (or a single concise sentence capturing scope and key achievement) instead of full technical breakdowns.
+6. **Google Docs Page Layout (A4, 1.25 cm Margins & Paragraph Pagination)**:
+   - Always configure the Google Docs CV as a **paginated (`PAGES`) A4 document** (`595.28 × 841.89 PT`) with **1.25 cm (`35.43 PT`) margins** (`top`, `bottom`, `left`, `right`).
+   - Set paragraph pagination properties **`keepWithNext: true`**, **`keepLinesTogether: true`**, and **`avoidWidowAndOrphan: true`** so headings never detach from their content at the bottom of a page and paragraphs are never split across page breaks.
 
 ---
 

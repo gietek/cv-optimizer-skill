@@ -27,7 +27,7 @@ When saving the optimized CV in Markdown (`CV_<FirstName>_<LastName>_<LANG>.md`)
 - The **document length** stays within **at most 3 pages**.
 - The **filename** contains **only basic English ASCII characters** (`A-Z`, `a-z`, `0-9`, `_`, `-`, `.`), with all diacritics transliterated (`ą→a`, `ł→l`, `ó→o`, `ż→z`, etc.).
 - Every link in the document includes **`https://`**.
-- The **Professional Summary** is **3–4 sentences** and does **not** list specific technologies that appear later in the document.
+- The **Professional Summary** is **3–4 sentences**, caps experience at **`20+` years** (`ponad 20 lat` in Polish if >20), and does **not** repeat specific technologies or specific achievements/items already written under individual job positions.
 - **Avoid redundant repetitions** such as `"2-krotnie (2x)"` or `"50 procent (50%)"`.
 - **Roles from 12+ years ago** are condensed to 1–2 brief bullets.
 
@@ -37,7 +37,7 @@ When saving the optimized CV in Markdown (`CV_<FirstName>_<LastName>_<LANG>.md`)
 City, Country | Phone | email@example.com | https://linkedin.com/in/username | https://github.com/username
 
 ## Professional Summary
-Results-driven [Target Role] with [X]+ years of experience designing and scaling mission-critical systems across [Core Domains / Industries]. Proven track record of [Top Measurable Achievement 1 with metric] and [Top Measurable Achievement 2 with metric]. Adept at leading cross-functional teams, modernizing complex architectures, and aligning technical execution with strategic business goals.
+Results-driven [Target Role] with [X or max 20+] years of experience designing, scaling, and governing mission-critical systems across [Core Domains / Industries]. Specializes in transforming legacy architectures into resilient, high-availability platforms while optimizing operational efficiency at scale. Adept at leading cross-functional engineering teams, mentoring technical talent, and aligning product delivery with strategic business objectives.
 
 ## Work Experience
 
@@ -93,3 +93,54 @@ Include at the bottom of the CV **only if requested or confirmed by the user** (
 
 ### German (DSGVO-Einwilligung)
 > *Ich stimme der Verarbeitung meiner personenbezogenen Daten zum Zwecke des aktuellen sowie zukünftiger Bewerbungsverfahren gemäß der Datenschutz-Grundverordnung (DSGVO) zu.*
+
+---
+
+## 4. Google Docs Page Layout & Pagination Batch Recipe (A4 + 1.25 cm Margins)
+
+When creating the Google Docs document in **Phase 5**, always create it as a paginated document (`--pageless=false`) and apply the following `raw` batch operations via `gdocs mutate batch DOC_ID -f layout.json`:
+
+- **A4 Page Size**: `595.28 × 841.89 PT` (`210 × 297 mm`)
+- **Margins**: `1.25 cm = 35.43 PT` on all four sides (`marginTop`, `marginBottom`, `marginLeft`, `marginRight`)
+- **Paragraph Pagination**: `keepWithNext: true`, `keepLinesTogether: true`, `avoidWidowAndOrphan: true`
+
+```json
+[
+  {
+    "op": "raw",
+    "raw_request": {
+      "updateDocumentStyle": {
+        "documentStyle": {
+          "pageSize": {
+            "width": {"magnitude": 595.28, "unit": "PT"},
+            "height": {"magnitude": 841.89, "unit": "PT"}
+          },
+          "marginTop": {"magnitude": 35.43, "unit": "PT"},
+          "marginBottom": {"magnitude": 35.43, "unit": "PT"},
+          "marginLeft": {"magnitude": 35.43, "unit": "PT"},
+          "marginRight": {"magnitude": 35.43, "unit": "PT"}
+        },
+        "fields": "pageSize,marginTop,marginBottom,marginLeft,marginRight"
+      }
+    }
+  },
+  {
+    "op": "raw",
+    "raw_request": {
+      "updateParagraphStyle": {
+        "range": {
+          "startIndex": 1,
+          "endIndex": END_INDEX_OF_DOCUMENT
+        },
+        "paragraphStyle": {
+          "keepWithNext": true,
+          "keepLinesTogether": true,
+          "avoidWidowAndOrphan": true
+        },
+        "fields": "keepWithNext,keepLinesTogether,avoidWidowAndOrphan"
+      }
+    }
+  }
+]
+```
+*(Replace `END_INDEX_OF_DOCUMENT` with the document's final body character index obtained from `gdocs readonly structure DOC_ID --json` or `gdocs readonly dump-body DOC_ID`.)*

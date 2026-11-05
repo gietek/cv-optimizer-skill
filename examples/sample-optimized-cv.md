@@ -3,7 +3,7 @@
 Warsaw, Poland (Hybrid/Remote) | +48 600 000 000 | jan.kowalski@example.com | https://linkedin.com/in/jankowalski | https://github.com/jankowalski
 
 ## Professional Summary
-Senior Software Engineer with **12+ years of experience** designing high-throughput backend systems and distributed cloud architectures for financial and e-commerce platforms. Proven track record of **reducing annual infrastructure spend by 32%** and scaling real-time payment pipelines to **25,000+ requests per second (99.99% SLA)**. Adept at leading cross-functional engineering teams, modernizing legacy monoliths, and driving engineering excellence.
+Senior Software Engineer with **12 years of experience** designing high-throughput backend systems and distributed cloud architectures for financial and e-commerce platforms. Specializes in transforming legacy monoliths into resilient, high-availability microservices while optimizing cloud cost efficiency and engineering velocity at scale. Adept at leading cross-functional engineering teams, mentoring developers, and aligning technical architecture with strategic business goals.
 
 ## Work Experience
 

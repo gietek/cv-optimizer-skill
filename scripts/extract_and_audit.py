@@ -241,6 +241,12 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
     current_year = datetime.date.today().year
     years = sorted({int(y) for y in YEAR_REGEX.findall(text)})
     years_12_plus_ago = [y for y in years if y <= current_year - 12]
+    career_span = (max(years) - min(years)) if len(years) >= 2 else None
+    experience_years_label = (
+        "20+ (or 'ponad 20' in PL — anti-ageism cap applied)"
+        if (career_span is not None and career_span > 20)
+        else (str(career_span) if career_span is not None else None)
+    )
     emails = sorted(set(EMAIL_REGEX.findall(text)))
     linkedin = sorted(set(LINKEDIN_REGEX.findall(text)))
     github = sorted(set(GITHUB_REGEX.findall(text)))
@@ -272,6 +278,8 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
         "years_12_plus_ago_to_condense": years_12_plus_ago,
         "earliest_year": min(years) if years else None,
         "latest_year": max(years) if years else None,
+        "estimated_career_span_years": career_span,
+        "summary_experience_years_label": experience_years_label,
         "contact_detected": {
             "emails": emails,
             "has_phone": bool(PHONE_REGEX.search(text)),
