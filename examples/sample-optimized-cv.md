@@ -3,7 +3,7 @@
 Warsaw, Poland (Hybrid/Remote) | +48 600 000 000 | jan.kowalski@example.com | https://linkedin.com/in/jankowalski | https://github.com/jankowalski
 
 ## Professional Summary
-Senior Software Engineer with **8+ years of experience** designing high-throughput backend systems and cloud-native architectures in **Python, Go, and AWS**. Proven track record of **reducing cloud infrastructure spend by 32% ($140k/year)** and scaling real-time payment pipelines to **25,000+ requests per second (99.99% SLA)**. Adept at leading cross-functional engineering teams, modernizing legacy monoliths, and embedding automated CI/CD and observability practices.
+Senior Software Engineer with **12+ years of experience** designing high-throughput backend systems and distributed cloud architectures for financial and e-commerce platforms. Proven track record of **reducing annual infrastructure spend by 32%** and scaling real-time payment pipelines to **25,000+ requests per second (99.99% SLA)**. Adept at leading cross-functional engineering teams, modernizing legacy monoliths, and driving engineering excellence.
 
 ## Work Experience
 
@@ -23,7 +23,11 @@ Senior Software Engineer with **8+ years of experience** designing high-throughp
 ### Junior Python Developer | SoftHouse Studio
 *Krakow, Poland | 07/2018 – 05/2020*
 - **Delivered 12+ RESTful APIs** in **Django REST Framework and PostgreSQL** for B2B SaaS clients, maintaining **88%+ automated unit and integration test coverage** (`pytest`).
-- **Reduced Docker image build times by 55% (from 11 min to 5 min)** by implementing multi-stage Docker builds and dependency caching in **GitLab CI**.
+- **Reduced Docker image build times by 55%** by implementing multi-stage Docker builds and dependency caching in **GitLab CI**.
+
+### Junior Web Developer | WebStart Agency
+*Krakow, Poland | 06/2013 – 06/2014*
+- **Built and maintained 15+ commercial web applications** for SMB clients, reducing average page load times by **40%**.
 
 ## Skills & Competencies
 - **Programming Languages:** Python (FastAPI, Django, asyncio), Go (Golang), SQL, Bash, TypeScript

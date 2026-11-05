@@ -14,6 +14,7 @@ Checks:
 - Timeline years & structural risks
 """
 
+import datetime
 import html
 import json
 import re
@@ -64,6 +65,13 @@ SLANG_PATTERNS = [
     r"\basap\b",
     r"\bfuckup\w*\b",
     r"\bfakapa?\b",
+]
+
+REDUNDANT_REPETITION_PATTERNS = [
+    r"\b\d+\s*-\s*krotnie\s*\(\s*\d+\s*x\s*\)",
+    r"\b(?:dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|wielo)krotnie\s*\(\s*\d+\s*x\s*\)",
+    r"\b\d+\s*x\s*\(\s*(?:\d+\s*-\s*krotnie|(?:dwu|trzy|cztero|pięcio)krotnie)\s*\)",
+    r"\b\d+(?:[.,]\d+)?\s*(?:procent|percent)\s*\(\s*\d+(?:[.,]\d+)?%\s*\)",
 ]
 
 METRIC_REGEX = re.compile(
@@ -224,7 +232,15 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
         if matches:
             slang_hits.extend(m.lower() for m in matches)
 
+    redundant_hits: List[str] = []
+    for pat in REDUNDANT_REPETITION_PATTERNS:
+        matches = re.findall(pat, text, flags=re.IGNORECASE)
+        if matches:
+            redundant_hits.extend(m.lower() for m in matches)
+
+    current_year = datetime.date.today().year
     years = sorted({int(y) for y in YEAR_REGEX.findall(text)})
+    years_12_plus_ago = [y for y in years if y <= current_year - 12]
     emails = sorted(set(EMAIL_REGEX.findall(text)))
     linkedin = sorted(set(LINKEDIN_REGEX.findall(text)))
     github = sorted(set(GITHUB_REGEX.findall(text)))
@@ -250,8 +266,10 @@ def audit_cv_text(text: str, diagnostics: Dict[str, bool]) -> Dict[str, object]:
         "weak_passive_phrases_found": sorted(set(weak_hits)),
         "weak_phrase_occurrences": len(weak_hits),
         "slang_warnings_found": sorted(set(slang_hits)),
+        "redundant_repetitions_found": sorted(set(redundant_hits)),
         "suggested_adjacent_technologies": detect_adjacent_tech_suggestions(text),
         "years_detected": years,
+        "years_12_plus_ago_to_condense": years_12_plus_ago,
         "earliest_year": min(years) if years else None,
         "latest_year": max(years) if years else None,
         "contact_detected": {

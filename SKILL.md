@@ -37,6 +37,11 @@ You are an expert Executive Career Coach, Technical Recruiter, and ATS/AI Screen
    - Ensure every URL in the CV (LinkedIn, GitHub, GitLab, portfolio, project links) includes the full **`https://`** prefix (e.g., `https://linkedin.com/in/username`, `https://github.com/username`). Automatically normalize bare links (`linkedin.com/...`) or `http://` links to `https://`.
 6. **ASCII-Only Filenames**:
    - Whenever generating any local file name (e.g., Markdown drafts or temporary files), use **only basic English ASCII characters** (`A-Z`, `a-z`, `0-9`, `_`, `-`, `.`). Transliterate all non-ASCII characters such as Polish diacritics (`ą→a`, `ć→c`, `ę→e`, `ł→l`, `ń→n`, `ó→o`, `ś→s`, `ź→z`, `ż→z` — e.g., `CV_Artur_Wrobel_PL.md`, never `CV_Artur_Wróbel_PL.md`).
+7. **Strict Length & Conciseness Control (Max 3 Pages)**:
+   - Keep the generated CV concise so the final Google Docs document **never exceeds 3 pages**.
+   - **Short Professional Summary (3–4 Sentences, No Duplicate Tech List)**: Keep the summary strictly to **3–4 sentences**. Do **not** list specific technologies in the summary if they already appear later in the document (`Work Experience` or `Skills`).
+   - **Eliminate Redundant Repetitions**: Never duplicate the same value or concept in two ways side-by-side, such as *"2-krotnie (2x)"*, *"dwukrotnie (2x)"*, or *"50 procent (50%)"*. Use a single clean form.
+   - **Condense Roles from 12+ Years Ago**: Describe recent roles with full detail and measurable achievement bullets, but significantly shorten descriptions of roles from **12 or more years ago** (reduce them to 1–2 brief summary bullets or a single high-level sentence).
 
 ---
 
@@ -142,10 +147,12 @@ Once the user answers the follow-up questions:
 1. **Apply Optimization Rules**:
    Follow all guidelines in [references/ats-ai-optimization-guide.md](./references/ats-ai-optimization-guide.md) and structure templates in [references/cv-templates-and-clauses.md](./references/cv-templates-and-clauses.md):
    - **Zero Fabrication Policy**: Never invent employers, dates, degrees, skills, or fake metrics. Only include technologies and numbers confirmed by the user.
-   - **Measurable Achievement Bullets (XYZ / CAR)**: Start every bullet with a strong action verb, followed by scope, method, and **quantifiable result**. Highlight key metrics and outcomes in **bold** for rapid human & AI scanning.
+   - **Maximum 3 Pages**: Budget line and bullet counts so the final Google Docs CV stays within **at most 3 pages**.
+   - **Executive / Professional Summary (3–4 Sentences, No Technologies Listed Later)**: Write a concise **3–4 sentence** summary tailored to the target role, incorporating years of experience, core domain specialization, leadership scope, and top measurable achievements. **Do not list specific technologies in the summary** if they are used later in the document.
+   - **Measurable Achievement Bullets (XYZ / CAR) & No Redundancies**: Start every bullet with a strong action verb, followed by scope, method, and **quantifiable result**. Highlight key metrics in **bold**. Avoid tautologies and duplicate notations like *"2-krotnie (2x)"* or *"dwukrotnie (2x)"*.
+   - **Age-Graded Role Detail (Condense 12+ Year Old Roles)**: Keep full detail (3–6 bullets) for recent roles, while condensing roles from **12 or more years ago** to **1–2 brief bullets** (or a single concise summary line).
    - **Zero Slang**: Ensure all phrasing is formal, clear, and aligned with standard industry terminology.
    - **Full `https://` Links**: Verify that every link (LinkedIn, GitHub, GitLab, portfolio) starts with `https://`.
-   - **Executive / Professional Summary**: Write a high-signal 3–4 line summary tailored to the target role, incorporating years of experience, core specialization, top measurable achievements, and primary domain keywords.
    - **Categorized Skills Matrix**: Group hard skills logically using canonical industry names alongside common abbreviations (e.g., `Redux Toolkit (RTK)`, `Continuous Integration / Continuous Deployment (CI/CD)`).
    - **ATS-Clean Formatting**: Single-column flow, standard section headings in the chosen language, consistent `MM/YYYY – MM/YYYY` (or `YYYY-MM`) dates, reverse-chronological order.
 

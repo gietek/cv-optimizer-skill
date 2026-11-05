@@ -24,8 +24,12 @@ Always use these canonical section titles so ATS parsers classify every section 
 ## 2. Canonical Markdown Template (Input for Google Docs)
 
 When saving the optimized CV in Markdown (`CV_<FirstName>_<LastName>_<LANG>.md`), ensure:
+- The **document length** stays within **at most 3 pages**.
 - The **filename** contains **only basic English ASCII characters** (`A-Z`, `a-z`, `0-9`, `_`, `-`, `.`), with all diacritics transliterated (`ą→a`, `ł→l`, `ó→o`, `ż→z`, etc.).
 - Every link in the document includes **`https://`**.
+- The **Professional Summary** is **3–4 sentences** and does **not** list specific technologies that appear later in the document.
+- **Avoid redundant repetitions** such as `"2-krotnie (2x)"` or `"50 procent (50%)"`.
+- **Roles from 12+ years ago** are condensed to 1–2 brief bullets.
 
 ```markdown
 # FULL NAME
@@ -33,7 +37,7 @@ When saving the optimized CV in Markdown (`CV_<FirstName>_<LastName>_<LANG>.md`)
 City, Country | Phone | email@example.com | https://linkedin.com/in/username | https://github.com/username
 
 ## Professional Summary
-Results-driven [Target Role] with [X]+ years of experience in [Core Domains]. Proven track record of [Top Measurable Achievement 1 with metric] and [Top Measurable Achievement 2 with metric]. Expert in [Key Skill 1], [Key Skill 2], and [Key Skill 3].
+Results-driven [Target Role] with [X]+ years of experience designing and scaling mission-critical systems across [Core Domains / Industries]. Proven track record of [Top Measurable Achievement 1 with metric] and [Top Measurable Achievement 2 with metric]. Adept at leading cross-functional teams, modernizing complex architectures, and aligning technical execution with strategic business goals.
 
 ## Work Experience
 
@@ -47,6 +51,10 @@ Results-driven [Target Role] with [X]+ years of experience in [Core Domains]. Pr
 *Location | MM/YYYY – MM/YYYY*
 - **[Action Verb] [Measurable Outcome + Metric]** using [Tools/Skills] for [Client/System scale].
 - **[Action Verb] [Measurable Outcome + Metric]** by redesigning [Process/Architecture].
+
+### Early Career Job Title (12+ Years Ago — Condensed) | Legacy Company Name
+*Location | MM/YYYY – MM/YYYY*
+- **[Brief 1-line summary of scope and key measurable outcome without verbose detail].**
 
 ## Skills & Competencies
 - **Core Technical Skills:** Skill A, Skill B, Skill C, Skill D
